@@ -1,0 +1,17 @@
+.chat-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+}
+
+.chat-item {
+  border-bottom: 1px solid var(--color-input-field-gray);
+  list-style: none;
+  padding: 5px 15px 0 15px;
+}
+
+.empty-list-message {
+  height: 30px;
+  padding: 25px;
+  text-align: center;
+}

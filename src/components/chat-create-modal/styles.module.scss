@@ -1,0 +1,15 @@
+.create-chat-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.create-chat-buttons {
+  display: flex;
+  gap: 15px;
+  padding-top: 10px;
+}
+
+.create-chat-button {
+  width: 200px;
+}

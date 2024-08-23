@@ -1,0 +1,22 @@
+.form {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+}
+
+.form__input {
+  width: 95%;
+}
+
+.send__button {
+  color: var(--color-button-primary);
+  width: 25px;
+  height: 25px;
+}
+
+.send__icon {
+  width: 100%;
+  height: 100%;
+}

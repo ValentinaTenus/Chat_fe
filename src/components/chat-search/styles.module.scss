@@ -1,0 +1,20 @@
+.form {
+  position: relative;
+  width: 100%;
+}
+
+.search__input {
+  border: 1px solid var(--color-text-light-gray);
+  border-radius: 25px;
+  padding: 10px 10px 10px 42px;
+  width: 100%;
+}
+
+.search__icon {
+  position: absolute;
+  left: 10px; 
+  height: 15px; 
+  top: 10px;
+  width: 1.5rem; 
+  color: var(--color-input-placeholder); 
+}
