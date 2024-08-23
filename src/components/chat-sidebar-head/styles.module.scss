@@ -1,0 +1,37 @@
+.chat-sidebar-head {
+  background-color: var(--color-background-light-gray);
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 15px;
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.login__button {
+  background-color: var(--color-white);
+  box-shadow: 0px 1px 1px  var(--color-text-light-blue);
+  color: var(--color-text-light-blue);
+  font-weight: var(--font-weight-bold);
+  padding: 8px 12px;
+}
+
+.user__icon {
+  height: 40px;
+  width: 40px;
+}
+
+// .add-chat__button {
+//   align-self: flex-end;
+//   background-color: var(--color-white);
+//   box-shadow: 0px 1px 1px  var(--color-text-light-blue);
+//   color: var(--color-text-light-blue);
+//   font-weight: var(--font-weight-bold);
+//   padding: 8px 12px;
+//   width: 100%;
+// }

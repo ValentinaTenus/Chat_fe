@@ -1,0 +1,43 @@
+.container {
+  align-items: center;
+  display: flex;
+  gap: 5px;
+  height: 75px;
+  width: 100%;
+}
+
+.avatar {
+  height: 40px;
+  width: 40px;
+}
+
+.avatar__image {
+  height: 100%;
+  width: 100%;
+}
+
+.text-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.name {
+  font-size: medium;
+  font-weight: bold;
+}
+
+.message {
+  color: var(--color-text-light-gray);
+}
+
+.date {
+  font-size: smaller;
+  color: var(--color-text-light-gray);
+}
