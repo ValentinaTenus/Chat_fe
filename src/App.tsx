@@ -1,12 +1,26 @@
-import { MainPage } from './pages';
+import React, { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 
-function App() {
+import { useAppSelector } from "./redux/hooks";
+import { type RootState } from "./redux/store";
 
-  return (
-    <>
-     <MainPage />
-    </>
-  )
-}
+import { useGetUser } from "./redux/auth/hooks/index";
 
-export default App;
+const App: React.FC = () => {
+	const { refetch } = useGetUser();
+	const user = useAppSelector((state: RootState) => state.auth.user);
+
+	useEffect(() => {
+		if (!user) {
+			refetch();
+		}
+	}, [user, refetch]);
+
+	return (
+		<>
+			<Outlet />
+		</>
+	);
+};
+
+export { App };

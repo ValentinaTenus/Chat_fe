@@ -1,8 +1,16 @@
-export { type Chat } from "./chat.type";
-export { type CreateNewChat } from "./create-new-chat.type";
-export { type CreateNewMessageRequestDto } from "./create-new-message-request-dto.type";
-export { type Message } from "./message.type";
-export { type ValueOf } from "./valueOf.type";
+export { type AuthTokenResponse } from "./auth/index";
+export { type Chat,  type CreateNewChat  } from "./chat/index";
+export { 
+  type CreateNewMessageRequestDto,
+  type Message,
+  type NewMessage
+} from "./chat-message/index";
 export { type ModalHandlers, type ModalProperties } from "./modal/index";
-export { type NewMessage } from "./new-message.type";
-export { type RandomQuote } from "./random-quote.type";
+export { type RandomQuote } from "./random-quote/random-quote.type";
+export { 
+  type UserAuthResponseDto,
+  type User,
+  type UserSignInRequestDto,
+  type UserSignUpRequestDto,
+ } from "./user/index";
+export { type ValueOf } from "./value-of/valueOf.type";

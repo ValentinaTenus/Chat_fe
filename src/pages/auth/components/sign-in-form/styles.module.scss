@@ -1,0 +1,29 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sign-in-head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sign-in-header {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-title-h3);
+  text-align: center;
+}
+
+.head-message {
+  font-size: var( --font-size-main-text);
+}
+
+.head-message-link {
+  font-weight: var(--font-weight-medium);
+}
+
+.error {
+  color: var( --color-error-red);
+}
