@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 
 import { FormatDateType } from "../enums/format-date.enum.js";
-import { type ValueOf } from "../types/valueOf.type.js";
+import { type ValueOf } from "../types/value-of/valueOf.type.js";
 
 const getFormattedDate = (
 	date: string,

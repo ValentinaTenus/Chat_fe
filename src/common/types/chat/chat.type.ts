@@ -1,4 +1,4 @@
-import { type Message } from "./message.type"
+import { type Message } from "../chat-message/message.type"
 
 type Chat = {
   _id: string;

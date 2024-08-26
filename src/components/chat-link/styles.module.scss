@@ -37,7 +37,79 @@
   color: var(--color-text-light-gray);
 }
 
+.dropdown {
+  position: relative; 
+  display: inline-block;
+}
+
+.right__section {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .date {
   font-size: smaller;
   color: var(--color-text-light-gray);
+}
+
+.dots__button {
+  font-size: medium;
+  font-weight: 700;
+  padding: 0;
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  display: none;
+  top: 15px;
+  right: 0px; 
+  background-color: var(--color-white); 
+  border-radius: 4px; 
+  box-shadow: 1px 2px 4px var(--color-input-placeholder); 
+  width: 150px; 
+}
+
+.dots__button:hover + .menu,
+.menu:hover {
+  display: flex;
+  flex-direction: column;
+  z-index: 1000; 
+}
+
+.menu-item {
+  padding: 10px 15px; 
+  color: var(----color-text-black); 
+  font-size: 14px; 
+  font-weight: 500;
+  cursor: pointer; 
+  transition: background-color 0.2s ease; 
+  text-align: left; 
+  border-bottom: 1px solid var(--color-disabled-gray); 
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item:hover {
+  background-color: var(-color-text-light-gray);
+}
+
+.delete-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.delete-modal-buttons {
+  display: flex;
+  gap: 20px;
+  align-self: flex-end;
+}
+
+.button {
+  width: 75px;
 }

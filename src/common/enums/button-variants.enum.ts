@@ -1,7 +1,8 @@
 enum ButtonVariant {
   DEFAULT = "default",
   PRIMARY = "primary",
-  OUTLINED = "outlined"
+  OUTLINED = "outlined",
+  DANGER = "danger"
 };
 
 export { ButtonVariant };

@@ -1,21 +1,28 @@
 import axios from "axios";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
 
-import { DefaultAvatar } from "../../common/components";
+import { Button, DefaultAvatar } from "../../common/components";
 import { getFormattedDate } from "../../common/helpers";
-import { FormatDateType, MessageSenderRole } from "../../common/enums";
+import { ButtonVariant, FormatDateType, MessageSenderRole } from "../../common/enums";
 import { NewMessage, type Chat, type Message, type RandomQuote } from "../../common/types";
-import { useCreateNewChatMessageMutation } from "../../redux/chats/chats-api";
+import { useCreateNewChatMessageMutation, useUpdateChatMessageMutation } from "../../redux/chats/chats-api";
 
 import { ChatForm } from "../chat-form";
 import styles from "./styles.module.scss";
 
 type OpenChatProperties = {
   chat: Chat | undefined;
-  onSubmit: () => void;
+  onRefetchCurrentChat: () => void;
 }
-const OpenChat: React.FC<OpenChatProperties> = ({ chat, onSubmit }) => {
+const OpenChat: React.FC<OpenChatProperties> = ({ chat, onRefetchCurrentChat }) => {
   const [createNewChatMessage] = useCreateNewChatMessageMutation();
+  const [updateChatMessage] = useUpdateChatMessageMutation();
+
+  const [editMessageId, setEditMessageId] = useState<string | null>(null);
+  const [editMessageText, setEditMessageText] = useState<string>("");
 
   const handleMessageSubmit = useCallback(async (payload: NewMessage) => {
     if (chat && payload.text) {
@@ -26,14 +33,19 @@ const OpenChat: React.FC<OpenChatProperties> = ({ chat, onSubmit }) => {
       };
 
       await createNewChatMessage(newMessage).unwrap();
-      onSubmit();
+      onRefetchCurrentChat();
       await handleSuccess();
-    }
-  }, [chat, createNewChatMessage, onSubmit]);
+    } 
+  }, [chat, createNewChatMessage, onRefetchCurrentChat]);
 
-  const fetchQuote = async (): Promise<RandomQuote[] | undefined> => {
+  const fetchQuote = async (): Promise<RandomQuote | undefined> => {
     try {
-      const response = await axios.get(`${import.meta.env.QUOTES_API}`); 
+      const response = await axios.get(`${import.meta.env.VITE_QUOTES_API}/?language_code=en`, {
+        headers: {
+          "x-rapidapi-host": "quotes15.p.rapidapi.com",
+          "x-rapidapi-key": "2c214c09d8msh0c13cfb9f600e0dp186ebejsna1634052701b"
+        }
+      }); 
       return response.data; 
     } catch (error) {
       console.error("Error fetching quote:", error);
@@ -46,15 +58,48 @@ const OpenChat: React.FC<OpenChatProperties> = ({ chat, onSubmit }) => {
 
         if (quote) {
           const newMessage = {
-            text: quote[0]?.content,
+            text: quote.content,
             chatId: chat._id,
             senderRole: MessageSenderRole.SYSTEM,
           };
           await createNewChatMessage(newMessage).unwrap();
-          onSubmit();
+          onRefetchCurrentChat();
+          toast.success(quote.content);
         }
       }
     }
+  
+    const handleEditMessage = useCallback((message: Message) => {
+      setEditMessageId(message._id);
+      setEditMessageText(message.text);
+    }, []);
+  
+    const handleMessageUpdate = useCallback(async () => {
+      if (chat && editMessageId && editMessageText.trim()) {
+        const updatedMessage = {
+          text: editMessageText,
+          chatId: chat._id,
+          senderRole: MessageSenderRole.USER,
+          _id: editMessageId,
+        };
+        updateChatMessage({id: editMessageId, payload: updatedMessage})
+        setEditMessageId(null);
+        setEditMessageText("");
+        onRefetchCurrentChat();
+        
+      }
+    }, [chat, editMessageId, editMessageText, onRefetchCurrentChat]);
+
+    const handleInputKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        handleMessageUpdate();
+      }
+    }, [handleMessageUpdate]);
+  
+    const handleInputBlur = useCallback(() => {
+      handleMessageUpdate();
+    }, [handleMessageUpdate]);
 
   return (
     <>
@@ -87,11 +132,41 @@ const OpenChat: React.FC<OpenChatProperties> = ({ chat, onSubmit }) => {
                         ) : null
                         }
                       </div>
-                      <div className={styles["message-content"]}> 
-                        <div className={styles["message-text"]}>{message.text}</div>
-                        <div className={styles["message-timestamp"]}>
-                          {getFormattedDate(message.timestamp, FormatDateType.MM_DD_YYYY_HH_MM_A)}
+                      <div className={styles["message-content-container"]}>
+                        <div className={styles["message-content"]}> 
+
+                           {editMessageId === message._id ? (
+                            <input
+                              type="text"
+                              value={editMessageText}
+                              onChange={(e) => setEditMessageText(e.target.value)}
+                              onKeyDown={handleInputKeyDown}
+                              onBlur={handleInputBlur}
+                              className={styles["edit-message-input"]}
+                              autoFocus
+                            />
+                          ) : (
+                            <div className={styles["message-text"]}>
+                              {message.text}
+                            </div>
+                          )}
+                          <div className={styles["message-timestamp"]}>
+                            {getFormattedDate(message.timestamp, FormatDateType.MM_DD_YYYY_HH_MM_A)}
+                          </div>
                         </div>
+                          <Button
+                            variant={ButtonVariant.DEFAULT}
+                            onClick={() =>
+                              editMessageId === message._id
+                                ? handleMessageUpdate()
+                                : handleEditMessage(message)
+                            }
+                          >
+                          < FontAwesomeIcon 
+                              className={styles["message-content__icon"]} 
+                              icon={faPen}
+                            />
+                          </Button>
                       </div>
                     </div>
                   </li>

@@ -1,21 +1,26 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { combineReducers } from "redux";
-import { persistReducer } from "redux-persist";
+import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import { api } from "./services.ts";
+import { authApi } from "./auth/auth-api.ts";
+import { authReducer } from "./auth/auth-slice.ts";
 import { chatsApi} from "./chats/chats-api.ts";
 import { chatsReducer } from "./chats/chats-slice.ts";
 
 const rootReducer = combineReducers({
+	auth: authReducer,
+	[authApi.reducerPath]: authApi.reducer,
 	chats: chatsReducer,
-	[chatsApi.reducerPath]: chatsApi.reducer,
+	chatsApiSlice: chatsApi.reducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
+	whitelist: ["auth"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -30,10 +35,11 @@ const store = configureStore({
 	reducer: persistedReducer,
 });
 
+const persistor = persistStore(store);
 
 setupListeners(store.dispatch);
 
-export { store };
+export { persistor, store };
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { type Chat } from "../../common/types";
+import { type Chat } from "~/common/types";
 
 type ChatsState = {
 	chats: Chat[] | null;

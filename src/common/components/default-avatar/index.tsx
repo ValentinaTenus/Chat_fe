@@ -1,4 +1,4 @@
-import DefaultUserAvatar from "../../../assets/images/avatar.png";
+import DefaultUserAvatar from "~/assets/images/avatar.png";
 
 import styles from "./styles.module.scss";
 

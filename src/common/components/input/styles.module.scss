@@ -9,6 +9,9 @@
   border-radius: 51px;
 }
 .container {
+  display: flex;
+  flex-direction: column;
+  gap:5px;
   width: 100%;
 }
 

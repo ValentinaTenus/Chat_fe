@@ -1,14 +1,14 @@
 import  {  useCallback, useState } from "react";
 
-import { ChatSidebar, OpenChat } from "../../components/index";
-import { useGetChatsQuery, useGetChatByIdQuery } from "../../redux/chats/chats-api";
+import { ChatSidebar, OpenChat } from "~/components/index";
+import { useGetChatsQuery, useGetChatByIdQuery } from "~/redux/chats/chats-api";
 
 import styles from "./styles.module.scss";
 
 const MainPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: chats } = useGetChatsQuery(searchTerm);
+  const { data: chats, refetch: refetchChats } = useGetChatsQuery(searchTerm);
 
   const [selectedChatId, setSelectedChatId] = useState<string |  undefined>( undefined );
 
@@ -24,7 +24,11 @@ const MainPage = () => {
     setSearchTerm(term);
   }, []);
 
-  const handleMessageSend = useCallback(() => {
+  const handleRefetchChats = useCallback(() => {
+    refetchChats();
+  }, [refetchChats]);
+
+  const handleCurrentChatRefetch = useCallback(() => {
     if (selectedChatId) {
       refetchCurrentChat();  
     }
@@ -36,11 +40,14 @@ const MainPage = () => {
        chats={chats || []}
        onSelectChat={handleChatSelect}
        onSearchChat={handleSearch}
+       onRefetchChats={handleRefetchChats}
       />
       {selectedChatId ? (
-          <OpenChat chat={currentChat} onSubmit={handleMessageSend} />
+          <OpenChat chat={currentChat} onRefetchCurrentChat={handleCurrentChatRefetch} />
         ) : (
-          <p>Select a chat to start messaging</p>
+          <div className={styles["select-chat-message"]}>
+            <p>Select a chat to start messaging</p>
+          </div>
       )}
     </div>
   )

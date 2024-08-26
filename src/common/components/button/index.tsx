@@ -10,6 +10,7 @@ const variants: Record<ButtonVariant, string> = {
     default: styles.button__base,
     primary: styles.button__primary,
     outlined: styles.button__outlined,
+    danger: styles.button__danger
 };
 
 type ButtonProperties = {

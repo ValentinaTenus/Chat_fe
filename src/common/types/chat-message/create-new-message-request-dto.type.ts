@@ -1,4 +1,4 @@
-import { MessageSenderRole } from "../enums";
+import { MessageSenderRole } from "~/common/enums/index";
 
 type CreateNewMessageRequestDto = {
   text: string;

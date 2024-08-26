@@ -52,3 +52,16 @@
   background-color: var(--color-disabled-gray);
   border: none;
 }
+
+.button__danger {
+  background-color: var(--color-error-red);
+  border-radius: 52px;
+  color: var(--color-white);
+  font-weight: var(--font-weight-bold);
+  padding: 8px 12px;
+}
+
+.button__danger:hover {
+  background-color: var(--color-error-red);
+  opacity: 0.8;
+}

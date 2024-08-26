@@ -3,12 +3,11 @@ import { type FC } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
-import { Button } from "../index";
 import { useModal } from "../../hooks/index";
-import { type ModalProperties } from "../../types/index";
-
-import styles from './styles.module.scss';
 import { ButtonVariant } from "../../enums";
+import { type ModalProperties } from "../../types/index";
+import { Button } from "../index";
+import styles from './styles.module.scss';
 
 const Modal: FC<ModalProperties> = ({
     children,

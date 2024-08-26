@@ -4,18 +4,19 @@ import { Button, Input, Modal } from "../../common/components/index";
 import { ButtonType, ButtonVariant, ModalVariant } from "../../common/enums/index";
 import { useAppForm } from "../../common/hooks/index";
 import { type CreateNewChat } from "../../common/types/index";
-import { useCreateNewChatMutation } from "../../redux/chats/chats-api";
 
 import { createNewChatValidation } from "./validation";
 import styles from "./styles.module.scss";
 
 type ChatCreateModalProps = {
+  defaultData?: CreateNewChat;
   isOpen: boolean;
   onRequestClose: () => void;
+  onSubmit: (data: CreateNewChat) => void;
 };
 
-const ChatCreateModal: React.FC<ChatCreateModalProps> = ({ isOpen, onRequestClose }) => {
-  const [createNewChat] = useCreateNewChatMutation();
+const CreateChatModal: React.FC<ChatCreateModalProps> = ({ 
+  defaultData, isOpen, onRequestClose, onSubmit }) => {
 
 	const {
     control,
@@ -23,10 +24,10 @@ const ChatCreateModal: React.FC<ChatCreateModalProps> = ({ isOpen, onRequestClos
 		handleSubmit,
     reset
 	} = useAppForm<CreateNewChat>({
-		defaultValues: {
-			firstName: "",
-			lastName: "",
-		},
+		defaultValues: defaultData ?? {
+      	firstName: "",
+      	lastName: "",
+      },
 		validationSchema: createNewChatValidation,
 	});
 
@@ -38,10 +39,10 @@ const ChatCreateModal: React.FC<ChatCreateModalProps> = ({ isOpen, onRequestClos
 
 	const handleFormSubmit = useCallback((): void => {
 		void handleSubmit((data: CreateNewChat) => {
-			createNewChat(data);
-      onRequestClose(); 
+      onSubmit(data);
+      onRequestClose();
 		})();
-	}, [createNewChat, handleSubmit, onRequestClose]);
+	}, [handleSubmit, onRequestClose]);
 
   return (
     <Modal
@@ -72,7 +73,7 @@ const ChatCreateModal: React.FC<ChatCreateModalProps> = ({ isOpen, onRequestClos
             type={ButtonType.BUTTON} 
             variant={ButtonVariant.PRIMARY}
           >
-            Create Chat
+            Send
           </Button>
           <Button 
             className={styles["create-chat-button"]}
@@ -88,4 +89,4 @@ const ChatCreateModal: React.FC<ChatCreateModalProps> = ({ isOpen, onRequestClos
   );
 };
 
-export { ChatCreateModal };
+export { CreateChatModal };

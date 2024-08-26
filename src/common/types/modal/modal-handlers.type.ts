@@ -1,4 +1,4 @@
-import { type KeyboardEvent, type SyntheticEvent } from 'react';
+import { type KeyboardEvent, type SyntheticEvent } from "react";
 
 type ModalHandlers = {
     handleOutsideClick: () => void;

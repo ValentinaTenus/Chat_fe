@@ -1,6 +1,6 @@
-import { HttpMethods } from "../../common/enums/http-methods.enum.ts";
-import { type Chat } from "../../common/types/chat.type.ts";
-import { Message, type CreateNewChat, type CreateNewMessageRequestDto } from "../../common/types/index";
+import { HttpMethods } from "~/common/enums/http-methods.enum.ts";
+import { type Chat } from "~/common/types/chat/chat.type.ts";
+import { Message, type CreateNewChat, type CreateNewMessageRequestDto } from "~/common/types/index";
 
 import { api } from "../services.ts";
 import { chatsApiPath, chatMessagesApiPath } from "./constants.ts";
@@ -34,12 +34,35 @@ export const chatsApi = api.injectEndpoints({
 				url: chatMessagesApiPath.ROOT,
 			}),
 		}),
+		updateChatMessage: builder.mutation<Message,{id: string, payload: Partial<Message>}>({
+			query: ({ id, payload}) => ({
+				body: payload,
+				method: HttpMethods.PUT,
+				url: `${chatMessagesApiPath.ROOT}/${id}`,
+			}),
+		}),
+		updateChat: builder.mutation<Chat,{id: string, data: Partial<CreateNewChat>}>({
+			query: ({id, data }) => ({
+				body: data,
+				method: HttpMethods.PUT,
+				url: `${chatsApiPath.ROOT}/${id}`,
+			}),
+		}),
+		deleteChat: builder.mutation<Chat, string>({
+			query: (id) => ({
+				method: HttpMethods.DELETE,
+				url: `${chatsApiPath.ROOT}/${id}`,
+			}),
+		}),
   })
 });
 
 export const { 
+	useDeleteChatMutation,
 	useGetChatByIdQuery, 
 	useGetChatsQuery, 
 	useCreateNewChatMutation, 
-	useCreateNewChatMessageMutation 
+	useCreateNewChatMessageMutation,
+	useUpdateChatMutation,
+	useUpdateChatMessageMutation
 } = chatsApi;

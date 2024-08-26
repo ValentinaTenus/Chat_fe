@@ -1,4 +1,4 @@
-import { ValueOf } from "./valueOf.type";
+import { ValueOf } from "../value-of/valueOf.type";
 
 enum senderRole {
   USER = "user",
