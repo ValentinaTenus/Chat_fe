@@ -6,6 +6,13 @@
 }
 
 .select-chat-message {
+  background-color: var(--color-background-light-gray);
   display: flex;
-  padding: 25px;
+  justify-content: center;
+  padding: 55px 25px;
+  width: 65%;
+}
+
+.select-chat-text {
+  text-align: center;
 }

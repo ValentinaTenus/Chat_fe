@@ -55,6 +55,7 @@ const SignInForm: FC = () => {
           label="Password"
           name="password"
           placeholder="Your password"
+          type="password"
         />
         <Button
           className={styles["send__button"]}

@@ -4,11 +4,11 @@ import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
-import { Button, DefaultAvatar } from "../../common/components";
-import { getFormattedDate } from "../../common/helpers";
-import { ButtonVariant, FormatDateType, MessageSenderRole } from "../../common/enums";
-import { NewMessage, type Chat, type Message, type RandomQuote } from "../../common/types";
-import { useCreateNewChatMessageMutation, useUpdateChatMessageMutation } from "../../redux/chats/chats-api";
+import { Button, DefaultAvatar } from "~/common/components/index";
+import { getFormattedDate } from "~/common/helpers/index";
+import { ButtonVariant, FormatDateType, MessageSenderRole } from "~/common/enums/index";
+import { NewMessage, type Chat, type Message, type RandomQuote } from "~/common/types/index";
+import { useCreateNewChatMessageMutation, useUpdateChatMessageMutation } from "~/redux/chats/chats-api";
 
 import { ChatForm } from "../chat-form";
 import styles from "./styles.module.scss";
@@ -82,7 +82,7 @@ const OpenChat: React.FC<OpenChatProperties> = ({ chat, onRefetchCurrentChat }) 
           senderRole: MessageSenderRole.USER,
           _id: editMessageId,
         };
-        updateChatMessage({id: editMessageId, payload: updatedMessage})
+        await updateChatMessage({id: editMessageId, payload: updatedMessage})
         setEditMessageId(null);
         setEditMessageText("");
         onRefetchCurrentChat();
@@ -134,7 +134,6 @@ const OpenChat: React.FC<OpenChatProperties> = ({ chat, onRefetchCurrentChat }) 
                       </div>
                       <div className={styles["message-content-container"]}>
                         <div className={styles["message-content"]}> 
-
                            {editMessageId === message._id ? (
                             <input
                               type="text"
@@ -154,19 +153,21 @@ const OpenChat: React.FC<OpenChatProperties> = ({ chat, onRefetchCurrentChat }) 
                             {getFormattedDate(message.timestamp, FormatDateType.MM_DD_YYYY_HH_MM_A)}
                           </div>
                         </div>
-                          <Button
-                            variant={ButtonVariant.DEFAULT}
-                            onClick={() =>
-                              editMessageId === message._id
-                                ? handleMessageUpdate()
-                                : handleEditMessage(message)
-                            }
-                          >
-                          < FontAwesomeIcon 
-                              className={styles["message-content__icon"]} 
-                              icon={faPen}
-                            />
-                          </Button>
+                          { message.senderRole === MessageSenderRole.USER && (
+                            <Button
+                              variant={ButtonVariant.DEFAULT}
+                              onClick={() =>
+                                editMessageId === message._id
+                                  ? handleMessageUpdate()
+                                  : handleEditMessage(message)
+                              }
+                            >
+                              < FontAwesomeIcon 
+                                className={styles["message-content__icon"]} 
+                                icon={faPen}
+                              />
+                            </Button>
+                          )}
                       </div>
                     </div>
                   </li>

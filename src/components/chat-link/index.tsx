@@ -2,13 +2,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { useCallback, useState } from "react";
 
-import { Button, DefaultAvatar, Modal } from "../../common/components";
-import { getFormattedDate } from "../../common/helpers/index";
-import { ButtonVariant, FormatDateType, ModalVariant } from "../../common/enums";
-import { CreateNewChat, type Chat } from "../../common/types/index";
-import { useDeleteChatMutation, useUpdateChatMutation } from "../../redux/chats/chats-api";
+import { Button, DefaultAvatar, Modal } from "~/common/components/index";
+import { getFormattedDate } from "~/common/helpers/index";
+import { ButtonVariant, FormatDateType, ModalVariant } from "~/common/enums/index";
+import { CreateNewChat, type Chat } from "~/common/types/index";
+import { useDeleteChatMutation, useUpdateChatMutation } from "~/redux/chats/chats-api";
 
-import { CreateChatModal } from "../index";
+import { ChatModal } from "../index";
 import styles from "./styles.module.scss";
 
 type ChatLinkProperties = {
@@ -112,9 +112,10 @@ const ChatLink: React.FC<ChatLinkProperties> = ({
         </div>
       </div>
       {isUpdateModalOpen && (
-        <CreateChatModal
+        <ChatModal
           defaultData={{firstName: chat.firstName, lastName: chat.lastName}}
           isOpen={isUpdateModalOpen}
+          isUpdateChat
           onRequestClose={handleUpdateModalClose}
           onSubmit={handleUpdateChat}
         />
@@ -126,25 +127,25 @@ const ChatLink: React.FC<ChatLinkProperties> = ({
           onClose={handleDeleteModalClose}
           title="Confirm Deletion"
         > 
-        <div className={styles["delete-modal-content"]}>
-          <p>Are you sure you want to delete this chat? This action cannot be undone.</p>
-            <div className={styles["delete-modal-buttons"]}> 
-              <Button
-              className={styles["button"]}
-                onClick={handleDeleteConfirm} 
-                variant={ButtonVariant.DANGER}
-              >
-                Delete
-              </Button>
-              <Button 
-               className={styles["button"]}
-                onClick={handleDeleteModalClose} 
-                variant={ButtonVariant.OUTLINED}
-              >
-                Cancel
-              </Button>
+          <div className={styles["delete-modal-content"]}>
+            <p>Are you sure you want to delete this chat? This action cannot be undone.</p>
+              <div className={styles["delete-modal-buttons"]}> 
+                <Button
+                  className={styles["button"]}
+                  onClick={handleDeleteConfirm} 
+                  variant={ButtonVariant.DANGER}
+                >
+                  Delete
+                </Button>
+                <Button 
+                  className={styles["button"]}
+                  onClick={handleDeleteModalClose} 
+                  variant={ButtonVariant.OUTLINED}
+                >
+                  Cancel
+                </Button>
+              </div>
             </div>
-           </div>
           </Modal>
       )}
     </>

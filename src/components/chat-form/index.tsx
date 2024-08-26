@@ -2,13 +2,13 @@ import { useCallback, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
-import { Button, Input } from "../../common/components/index";
-import { useAppForm } from "../../common/hooks/index";
-import { type NewMessage } from "../../common/types/index";
+import { Button, Input } from "~/common/components/index";
+import { useAppForm } from "~/common/hooks/index";
+import { ButtonType, ButtonVariant } from "~/common/enums/index";
+import { type NewMessage } from "~/common/types/index";
 
 import { createNewMessageValidation } from "./new-message.validation";
 import styles from "./styles.module.scss";
-import { ButtonType, ButtonVariant } from "../../common/enums";
 
 type Properties = {
 	onSubmit: (payload: NewMessage) => void;

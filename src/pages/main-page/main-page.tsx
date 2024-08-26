@@ -46,7 +46,7 @@ const MainPage = () => {
           <OpenChat chat={currentChat} onRefetchCurrentChat={handleCurrentChatRefetch} />
         ) : (
           <div className={styles["select-chat-message"]}>
-            <p>Select a chat to start messaging</p>
+            <p className={styles["select-chat-text"]}> Select a chat to start messaging</p>
           </div>
       )}
     </div>

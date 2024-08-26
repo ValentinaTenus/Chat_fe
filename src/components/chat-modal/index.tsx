@@ -1,22 +1,23 @@
 import React, { useCallback,useEffect } from "react";
 
-import { Button, Input, Modal } from "../../common/components/index";
-import { ButtonType, ButtonVariant, ModalVariant } from "../../common/enums/index";
-import { useAppForm } from "../../common/hooks/index";
-import { type CreateNewChat } from "../../common/types/index";
+import { Button, Input, Modal } from "~/common/components/index";
+import { ButtonType, ButtonVariant, ModalVariant } from "~/common/enums/index";
+import { useAppForm } from "~/common/hooks/index";
+import { type CreateNewChat } from "~/common/types/index";
 
-import { createNewChatValidation } from "./validation";
 import styles from "./styles.module.scss";
+import { createNewChatValidation } from "./validation";
 
-type ChatCreateModalProps = {
+type ChatModalProps = {
   defaultData?: CreateNewChat;
   isOpen: boolean;
+  isUpdateChat?: boolean;
   onRequestClose: () => void;
   onSubmit: (data: CreateNewChat) => void;
 };
 
-const CreateChatModal: React.FC<ChatCreateModalProps> = ({ 
-  defaultData, isOpen, onRequestClose, onSubmit }) => {
+const ChatModal: React.FC<ChatModalProps> = ({ 
+  defaultData, isOpen, isUpdateChat = false, onRequestClose, onSubmit }) => {
 
 	const {
     control,
@@ -49,7 +50,7 @@ const CreateChatModal: React.FC<ChatCreateModalProps> = ({
       isOpen={isOpen}
       onClose={onRequestClose}
       variant={ModalVariant.FORM}
-      title="Create New Chat"   
+      title={isUpdateChat ? "Update Chat" : "Create New Chat" }  
     >
       <form className={styles["create-chat-form"]}>
           <Input
@@ -89,4 +90,4 @@ const CreateChatModal: React.FC<ChatCreateModalProps> = ({
   );
 };
 
-export { CreateChatModal };
+export { ChatModal };

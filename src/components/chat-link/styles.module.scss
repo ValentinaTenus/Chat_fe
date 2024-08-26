@@ -64,7 +64,7 @@
 .menu {
   position: absolute;
   display: none;
-  top: 15px;
+  top: -5px;
   right: 0px; 
   background-color: var(--color-white); 
   border-radius: 4px; 
@@ -81,21 +81,23 @@
 
 .menu-item {
   padding: 10px 15px; 
-  color: var(----color-text-black); 
+  color: var(--color-text-black); 
   font-size: 14px; 
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   cursor: pointer; 
   transition: background-color 0.2s ease; 
   text-align: left; 
   border-bottom: 1px solid var(--color-disabled-gray); 
+  border-radius: 4px 4px 0 0;
 }
 
 .menu-item:last-child {
   border-bottom: none;
+  border-radius: 0;
 }
 
 .menu-item:hover {
-  background-color: var(-color-text-light-gray);
+  background-color: var(--color-input-placeholder);
 }
 
 .delete-modal-content {

@@ -3,16 +3,16 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { Button } from "../../common/components/index";
-import { AppRoute, ButtonVariant } from "../../common/enums/index";
-import { type CreateNewChat } from "../../common/types/index";
-import { logout } from "../../redux/auth/auth-slice";
-import { useCreateNewChatMutation } from "../../redux/chats/chats-api";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { type RootState } from "../../redux/store";
+import { Button } from "~/common/components/index";
+import { AppRoute, ButtonVariant } from "~/common/enums/index";
+import { type CreateNewChat } from "~/common/types/index";
+import { logout } from "~/redux/auth/auth-slice";
+import { useCreateNewChatMutation } from "~/redux/chats/chats-api";
+import { useAppDispatch, useAppSelector } from "~/redux/hooks";
+import { type RootState } from "~/redux/store";
 
-import { CreateChatModal } from "../index";
 import { ChatSearch } from "../chat-search";
+import { ChatModal } from "../index";
 import styles from "./styles.module.scss";
 
 type ChatSidebarHeadProperties = {
@@ -80,7 +80,7 @@ const ChatSidebarHead: React.FC<ChatSidebarHeadProperties> = ({
       >
         Create New Chat
       </Button>
-      <CreateChatModal 
+      <ChatModal 
         isOpen={isModalOpen} 
         onSubmit={handleCreateNewChat} 
         onRequestClose={handleModalClose} 

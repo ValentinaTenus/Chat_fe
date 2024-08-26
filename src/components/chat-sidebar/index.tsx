@@ -1,5 +1,5 @@
-import { EMPTY_LENGTH } from "../../common/constants/index.ts";
-import { type Chat } from "../../common/types/chat/chat.type.ts";
+import { EMPTY_LENGTH } from "~/common/constants/index.ts";
+import { type Chat } from "~/common/types/chat/chat.type.ts";
 
 import { ChatLink, ChatSidebarHead } from "../index.ts";
 import styles from "./styles.module.scss";
@@ -22,24 +22,26 @@ const ChatSidebar: React.FC<ChatSidebarProperties> = ({
           onSearchChat={onSearchChat} 
           onRefetchChats={onRefetchChats}
         />
-        {isChats && chats && chats.map((chat) => {
-          return (
-            <li className={styles["chat-item"]} key={chat._id}>
-              <ChatLink 
-                chat={chat}
-                onSelectChat={onSelectChat}
-                onRefetchChats={onRefetchChats}
-              />
+        <ul className={styles["chat-list"]}>
+          {isChats && chats && chats.map((chat) => {
+            return (
+              <li className={styles["chat-item"]} key={chat._id}>
+                <ChatLink 
+                  chat={chat}
+                  onSelectChat={onSelectChat}
+                  onRefetchChats={onRefetchChats}
+                />
+              </li>
+            );
+          })}
+          {!isChats && (
+            <li className={styles["chat-item"]}>
+              <p className={styles["empty-list-message"]}>
+                There are no chats yet.
+              </p>
             </li>
-          );
-        })}
-        {!isChats && (
-          <li className={styles["chat-item"]}>
-            <p className={styles["empty-list-message"]}>
-							There are no chats yet.
-						</p>
-          </li>
-        )}
+          )}
+        </ul>
       </div>
     </>
   )

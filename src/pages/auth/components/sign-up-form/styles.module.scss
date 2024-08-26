@@ -11,8 +11,9 @@
 }
 
 .sign-up-header {
+  color: var(--color-button-primary);
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-title-h3);
+  font-size: var(--font-size-title-h2);
   text-align: center;
 }
 
@@ -21,9 +22,9 @@
 }
 
 .head-message-link {
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-bold);
 }
 
 .error {
-  color: var( --color-error-red);
+  color: var(--color-error-red);
 }
