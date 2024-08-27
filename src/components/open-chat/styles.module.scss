@@ -115,6 +115,10 @@
   color: var(--color-text-light-gray);
 }
 
+.system-message .message-timestamp {
+  text-align: end;
+}
+
 .message__form {
   bottom: 0;
   padding: 15px;

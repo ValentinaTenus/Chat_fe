@@ -6,21 +6,24 @@ import styles from "./styles.module.scss";
 
 type ChatSidebarProperties = {
 	chats: Chat[];
+  onRefetchChats: () => void;
   onSelectChat: (chatId: string) => void;
   onSearchChat: (searchTerm: string) => void;
-  onRefetchChats: () => void;
+  onSendRandomQuote: () => void;
+  unreadMessages: { [key: string]: boolean };
 };
 
 const ChatSidebar: React.FC<ChatSidebarProperties> = ({ 
-  chats, onSearchChat, onSelectChat, onRefetchChats }) => {
+  chats,onRefetchChats, onSearchChat, onSelectChat, onSendRandomQuote, unreadMessages }) => {
   const isChats = chats.length > EMPTY_LENGTH;
 
   return (
     <>
       <div className={styles["chat-sidebar"]}>
         <ChatSidebarHead 
-          onSearchChat={onSearchChat} 
           onRefetchChats={onRefetchChats}
+          onSearchChat={onSearchChat} 
+          onSendRandomQuote={onSendRandomQuote}
         />
         <ul className={styles["chat-list"]}>
           {isChats && chats && chats.map((chat) => {
@@ -30,6 +33,7 @@ const ChatSidebar: React.FC<ChatSidebarProperties> = ({
                   chat={chat}
                   onSelectChat={onSelectChat}
                   onRefetchChats={onRefetchChats}
+                  hasUnreadMessages={unreadMessages[chat._id] ? true : false}
                 />
               </li>
             );
