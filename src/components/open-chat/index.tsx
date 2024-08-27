@@ -15,28 +15,17 @@ import styles from "./styles.module.scss";
 
 type OpenChatProperties = {
   chat: Chat | undefined;
+  onRefetchChats: () => void;
   onRefetchCurrentChat: () => void;
 }
-const OpenChat: React.FC<OpenChatProperties> = ({ chat, onRefetchCurrentChat }) => {
+
+const OpenChat: React.FC<OpenChatProperties> = ({ 
+  chat, onRefetchChats, onRefetchCurrentChat }) => {
   const [createNewChatMessage] = useCreateNewChatMessageMutation();
   const [updateChatMessage] = useUpdateChatMessageMutation();
 
   const [editMessageId, setEditMessageId] = useState<string | null>(null);
   const [editMessageText, setEditMessageText] = useState<string>("");
-
-  const handleMessageSubmit = useCallback(async (payload: NewMessage) => {
-    if (chat && payload.text) {
-      const newMessage = {
-        text: payload.text,
-        chatId: chat._id,
-        senderRole: MessageSenderRole.USER,
-      };
-
-      await createNewChatMessage(newMessage).unwrap();
-      onRefetchCurrentChat();
-      await handleSuccess();
-    } 
-  }, [chat, createNewChatMessage, onRefetchCurrentChat]);
 
   const fetchQuote = async (): Promise<RandomQuote | undefined> => {
     try {
@@ -51,7 +40,7 @@ const OpenChat: React.FC<OpenChatProperties> = ({ chat, onRefetchCurrentChat }) 
       console.error("Error fetching quote:", error);
     }}
 
-    const handleSuccess = async () => {
+    const handleSuccess = useCallback(async () => {
 
       if (chat) {
         const quote = await fetchQuote();
@@ -67,7 +56,22 @@ const OpenChat: React.FC<OpenChatProperties> = ({ chat, onRefetchCurrentChat }) 
           toast.success(quote.content);
         }
       }
-    }
+    }, [chat, createNewChatMessage, onRefetchCurrentChat]);
+
+    const handleMessageSubmit = useCallback(async (payload: NewMessage) => {
+      if (chat && payload.text) {
+        const newMessage = {
+          text: payload.text,
+          chatId: chat._id,
+          senderRole: MessageSenderRole.USER,
+        };
+  
+        await createNewChatMessage(newMessage).unwrap();
+        onRefetchCurrentChat();
+        await handleSuccess();
+        onRefetchChats();
+      } 
+    }, [chat, createNewChatMessage, handleSuccess, onRefetchCurrentChat, onRefetchChats]);
   
     const handleEditMessage = useCallback((message: Message) => {
       setEditMessageId(message._id);
@@ -86,9 +90,8 @@ const OpenChat: React.FC<OpenChatProperties> = ({ chat, onRefetchCurrentChat }) 
         setEditMessageId(null);
         setEditMessageText("");
         onRefetchCurrentChat();
-        
       }
-    }, [chat, editMessageId, editMessageText, onRefetchCurrentChat]);
+    }, [chat, editMessageId, editMessageText, onRefetchCurrentChat, updateChatMessage]);
 
     const handleInputKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key === "Enter") {

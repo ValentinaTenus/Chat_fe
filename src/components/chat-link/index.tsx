@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { faCircle, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { useCallback, useState } from "react";
 
 import { Button, DefaultAvatar, Modal } from "~/common/components/index";
@@ -13,12 +13,13 @@ import styles from "./styles.module.scss";
 
 type ChatLinkProperties = {
   chat: Chat;
+  hasUnreadMessages: boolean;
   onSelectChat: (chatId: string) => void;
   onRefetchChats: () => void;
 };
 
 const ChatLink: React.FC<ChatLinkProperties> = ({ 
-  chat, onSelectChat, onRefetchChats }) => {
+  chat, hasUnreadMessages, onSelectChat, onRefetchChats }) => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -38,7 +39,7 @@ const ChatLink: React.FC<ChatLinkProperties> = ({
   const handleUpdateChat  = useCallback(async (data: CreateNewChat) => {
     await updateChat({ id: chat._id, data});
     onRefetchChats();
-  }, []);
+  }, [chat, onRefetchChats, updateChat]);
 
   const handleUpdateModalOpen = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -61,7 +62,7 @@ const ChatLink: React.FC<ChatLinkProperties> = ({
   const handleDeleteConfirm = useCallback(async() => {
     await deleteChat(chat._id);
     onRefetchChats();
-  }, [])
+  }, [chat, deleteChat, onRefetchChats])
 
   return(
     <>
@@ -73,6 +74,10 @@ const ChatLink: React.FC<ChatLinkProperties> = ({
           <div className={styles["message-container"]}>
             <span className={styles["name"]}>
               {`${chat.firstName} ${chat.lastName}`}
+              {" "}
+              {hasUnreadMessages && (
+                <FontAwesomeIcon icon={faCircle} color="green" width="10px"/>
+              )}
             </span>
             <p className={styles["message"]}>
               {lastMessage ? lastMessage.text.slice(0, 30) : "No messages"}

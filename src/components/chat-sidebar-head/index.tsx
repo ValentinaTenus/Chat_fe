@@ -16,12 +16,13 @@ import { ChatModal } from "../index";
 import styles from "./styles.module.scss";
 
 type ChatSidebarHeadProperties = {
-  onSearchChat: (searchTerm: string) => void;
   onRefetchChats: () => void;
+  onSearchChat: (searchTerm: string) => void;
+  onSendRandomQuote: () => void;
 };
 
 const ChatSidebarHead: React.FC<ChatSidebarHeadProperties> = ({
-  onSearchChat, onRefetchChats
+  onRefetchChats, onSearchChat, onSendRandomQuote
 }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [createNewChat] = useCreateNewChatMutation();
@@ -41,12 +42,11 @@ const ChatSidebarHead: React.FC<ChatSidebarHeadProperties> = ({
     await createNewChat(data);
     handleModalClose();
     onRefetchChats();
-  }, []);
+  }, [createNewChat, handleModalClose, onRefetchChats]);
 
   const handleLogOut  = useCallback(() => {
     void dispatch(logout());
   }, [dispatch]);
-
 
 	return (
     <div className={styles["chat-sidebar-head"]}>
@@ -73,13 +73,20 @@ const ChatSidebarHead: React.FC<ChatSidebarHeadProperties> = ({
         )}
       </div>
       <ChatSearch onSearchChat={onSearchChat} />
-      <Button 
-        className={styles["add-chat__button"]}
-        onClick={handleModalOpen}
-        variant={ButtonVariant.OUTLINED}
-      >
-        Create New Chat
-      </Button>
+      <div className={styles["buttons-container"]}>
+        <Button 
+          onClick={handleModalOpen}
+          variant={ButtonVariant.OUTLINED}
+        >
+          Create New Chat
+        </Button>
+        <Button 
+          onClick={onSendRandomQuote}
+          variant={ButtonVariant.OUTLINED}
+        >
+          Send Random Quote
+        </Button>
+      </div>
       <ChatModal 
         isOpen={isModalOpen} 
         onSubmit={handleCreateNewChat} 

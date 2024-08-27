@@ -43,7 +43,7 @@ const ChatModal: React.FC<ChatModalProps> = ({
       onSubmit(data);
       onRequestClose();
 		})();
-	}, [handleSubmit, onRequestClose]);
+	}, [handleSubmit, onRequestClose, onSubmit]);
 
   return (
     <Modal
